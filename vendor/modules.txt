@@ -172,8 +172,6 @@ google.golang.org/protobuf/reflect/protoreflect
 google.golang.org/protobuf/reflect/protoregistry
 google.golang.org/protobuf/runtime/protoiface
 google.golang.org/protobuf/runtime/protoimpl
-# gorm.io/datatypes v1.0.1
-## explicit
 # gorm.io/driver/postgres v1.1.0
 ## explicit
 gorm.io/driver/postgres
