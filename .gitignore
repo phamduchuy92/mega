@@ -7,6 +7,8 @@
 *.dll
 *.so
 *.dylib
+build/package/*
+deployments/*.db
 
 # Test binary, build with `go test -c`
 *.test
@@ -18,4 +20,6 @@
 .glide/
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+/vendor/
+/tmp/
+/web/
