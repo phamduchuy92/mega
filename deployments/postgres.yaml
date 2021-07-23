@@ -1,0 +1,15 @@
+# Docker-compose script for database
+version: '3'
+services:
+  database:
+    image: "postgres"
+    environment:
+      POSTGRES_USER: mega
+      POSTGRES_PASSWORD: mega
+      POSTGRES_DB: mega
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+volumes:
+  database-data:

@@ -2,10 +2,14 @@ package app
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"time"
 
 	"github.com/knadh/koanf/providers/confmap"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var (
@@ -31,6 +35,16 @@ func DatabaseDefaults() {
 
 // DatabaseInit create the redis client based on koanf configuration
 func DatabaseInit() {
+	newLogger := logger.New(
+		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+		logger.Config{
+			SlowThreshold:             time.Second, // Slow SQL threshold
+			LogLevel:                  logger.Info, // Log level
+			IgnoreRecordNotFoundError: true,        // Ignore ErrRecordNotFound error for logger
+			Colorful:                  false,       // Disable color
+		},
+	)
+
 	var err error
 	dsn := fmt.Sprintf("user=%s password=%s host=%s port=%d dbname=%s sslmode=%s TimeZone=%s",
 		Config.String("db.user"),
@@ -40,9 +54,11 @@ func DatabaseInit() {
 		Config.String("db.name"),
 		Config.String("db.sslmode"),
 		Config.String("db.timezone"))
-	DBConn, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	DBConn, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+		Logger: newLogger,
+	})
 	if err != nil {
 		panic("failed to connect database")
 	}
-	fmt.Println("Connection Opened to Database")
+	fmt.Println("Connected database")
 }

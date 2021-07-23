@@ -13,13 +13,8 @@ type Order struct {
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `json:"deletedAt" gorm:"index"`
 
-	Title       string   `json:"title,omitempty" query:"title"`
-	Price       uint     `json:"price,omitempty" query:"price"`
-	Quantity    uint     `json:"quantity,omitempty" query:"quantity"`
-	Description string   `json:"description,omitempty" query:"description"`
-	Image       string   `json:"image,omitempty" query:"image"`
-	Images      []string `json:"images,omitempty" query:"images"`
-	Category    Category `json:"category,omitempty" query:"category"`
+	CustomerID uint     `json:"customer_id" query:"customer_id"`
+	Customer   Customer `json:"customer" query:"customer"`
 }
 
 // OrderDetail
@@ -29,5 +24,9 @@ type OrderDetail struct {
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `json:"deletedAt" gorm:"index"`
 
-	Title string `json:"title,omitempty" query:"title"`
+	OrderID   uint    `json:"order_id" query:"order_id"`
+	Order     Order   `json:"order" query:"order"`
+	ProductID uint    `json:"product_id" query:"product_id"`
+	Product   Product `json:"product" query:"product"`
+	Quantity  uint    `json:"quantity" query:"quantity"`
 }

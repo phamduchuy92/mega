@@ -2,7 +2,6 @@ package rest
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"gitlab.com/emi2/mega/internal/app"
@@ -11,18 +10,12 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-// GetAllProducts return all items
-func GetAllProducts(c *fiber.Ctx) error {
+// GetAllOrderDetails return all items
+func GetAllOrderDetails(c *fiber.Ctx) error {
 	db := app.DBConn.Scopes(utils.Paginate(c))
-	db.Preload("ProductCategory")
+	db.Preload("Order").Preload("Order.Customer").Preload("Product")
 
-	category := c.Query("category")
-	if category != "" {
-		db.Joins("LEFT JOIN product_categories ON product_categories.id = products.product_category_id")
-		db.Where("LOWER(product_categories.title) LIKE ?", "%"+strings.ToLower(category)+"%")
-	}
-
-	items := []mega.Product{}
+	items := []mega.OrderDetail{}
 	result := db.Find(&items)
 	if result.Error != nil {
 		return result.Error
@@ -35,12 +28,12 @@ func GetAllProducts(c *fiber.Ctx) error {
 	return c.JSON(items)
 }
 
-// GetProduct return a single item with given ID
-func GetProduct(c *fiber.Ctx) error {
-	app.DBConn.Preload("ProductCategory")
+// GetOrderDetail return a single item with given ID
+func GetOrderDetail(c *fiber.Ctx) error {
+	app.DBConn.Preload("Order").Preload("Order.Customer").Preload("Product")
 
 	id := c.Params("id")
-	item := mega.Product{}
+	item := mega.OrderDetail{}
 	result := app.DBConn.Find(&item, id)
 	if result.Error != nil {
 		return result.Error
@@ -52,11 +45,11 @@ func GetProduct(c *fiber.Ctx) error {
 	return c.JSON(item)
 }
 
-// NewProduct create a new item
-func NewProduct(c *fiber.Ctx) error {
-	app.DBConn.Preload("ProductCategory")
+// NewOrderDetail create a new item
+func NewOrderDetail(c *fiber.Ctx) error {
+	app.DBConn.Preload("Order").Preload("Order.Customer").Preload("Product")
 
-	item := mega.Product{}
+	item := mega.OrderDetail{}
 	if err := c.BodyParser(&item); err != nil {
 		return fiber.ErrBadRequest
 	}
@@ -66,11 +59,11 @@ func NewProduct(c *fiber.Ctx) error {
 	return c.JSON(item)
 }
 
-// UpdateProduct update item info with given ID
-func UpdateProduct(c *fiber.Ctx) error {
-	app.DBConn.Preload("ProductCategory")
+// UpdateOrderDetail update item info with given ID
+func UpdateOrderDetail(c *fiber.Ctx) error {
+	app.DBConn.Preload("Order").Preload("Order.Customer").Preload("Product")
 
-	item := mega.Product{}
+	item := mega.OrderDetail{}
 	if err := c.BodyParser(&item); err != nil {
 		return fiber.ErrBadRequest
 	}
@@ -90,10 +83,10 @@ func UpdateProduct(c *fiber.Ctx) error {
 	return c.JSON(item)
 }
 
-// DeleteProduct delete the item with given ID
-func DeleteProduct(c *fiber.Ctx) error {
+// DeleteOrderDetail delete the item with given ID
+func DeleteOrderDetail(c *fiber.Ctx) error {
 	id := c.Params("id")
-	item := mega.Product{}
+	item := mega.OrderDetail{}
 	result := app.DBConn.Find(&item, id)
 	if result.Error != nil {
 		return result.Error
