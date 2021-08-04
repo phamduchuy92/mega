@@ -34,7 +34,7 @@ import (
 )
 
 // Version of current fiber package
-const Version = "2.14.0"
+const Version = "2.15.0"
 
 // Handler defines a function to serve HTTP requests.
 type Handler = func(*Ctx) error
@@ -264,6 +264,24 @@ type Config struct {
 	//
 	// Default: false
 	DisableStartupMessage bool `json:"disable_startup_message"`
+
+	// This function allows to setup app name for the app
+	//
+	// Default: nil
+	AppName string `json:"app_name"`
+
+	// StreamRequestBody enables request body streaming,
+	// and calls the handler sooner when given body is
+	// larger then the current limit.
+	StreamRequestBody bool
+
+	// Will not pre parse Multipart Form data if set to true.
+	//
+	// This option is useful for servers that desire to treat
+	// multipart form data as a binary blob, or choose when to parse the data.
+	//
+	// Server pre parses multipart form data by default.
+	DisablePreParseMultipartForm bool
 
 	// Aggressively reduces memory usage at the cost of higher CPU usage
 	// if set to true.
@@ -844,6 +862,8 @@ func (app *App) init() *App {
 	app.server.WriteBufferSize = app.config.WriteBufferSize
 	app.server.GetOnly = app.config.GETOnly
 	app.server.ReduceMemoryUsage = app.config.ReduceMemoryUsage
+	app.server.StreamRequestBody = app.config.StreamRequestBody
+	app.server.DisablePreParseMultipartForm = app.config.DisablePreParseMultipartForm
 
 	// unlock application
 	app.mutex.Unlock()
@@ -942,9 +962,11 @@ func (app *App) startupMessage(addr string, tls bool, pids string) {
 		procs = "1"
 	}
 
-	mainLogo := cBlack +
-		" ┌───────────────────────────────────────────────────┐\n" +
-		" │ " + centerValue(" Fiber v"+Version, 49) + " │\n"
+	mainLogo := cBlack + " ┌───────────────────────────────────────────────────┐\n"
+	if app.config.AppName != "" {
+		mainLogo += " │ " + centerValue(app.config.AppName, 49) + " │\n"
+	}
+	mainLogo += " │ " + centerValue(" Fiber v"+Version, 49) + " │\n"
 
 	if host == "0.0.0.0" {
 		mainLogo +=

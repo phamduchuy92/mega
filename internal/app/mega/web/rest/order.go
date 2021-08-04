@@ -6,13 +6,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"gitlab.com/emi2/mega/internal/app"
 	"gitlab.com/emi2/mega/internal/app/mega"
-	"gitlab.com/emi2/mega/internal/app/mega/services/utils"
+	"gitlab.com/emi2/mega/internal/app/mega/services"
 	"gorm.io/gorm/clause"
 )
 
 // GetAllOrders return all items
 func GetAllOrders(c *fiber.Ctx) error {
-	db := app.DBConn.Scopes(utils.Paginate(c))
+	db := app.DBConn.Scopes(services.Paginate(c))
 	category := c.Query("category")
 	if category != "" {
 	}
@@ -73,7 +73,7 @@ func UpdateOrder(c *fiber.Ctx) error {
 	}
 
 	if dbErr := app.DBConn.Omit(clause.Associations).Save(&item); dbErr.Error != nil {
-		return dbErr.Error
+		return fiber.ErrBadGateway
 	}
 
 	return c.JSON(item)

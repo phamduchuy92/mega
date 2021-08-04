@@ -1,0 +1,7 @@
+http:
+  listen: ":3000"
+security:
+  jwt-secret: "my-secret"
+  authorities:
+    - ROLE_USER
+    - ROLE_ADMIN
