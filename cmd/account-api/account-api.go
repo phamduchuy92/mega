@@ -57,7 +57,7 @@ func configure() {
 	}, "."), nil)
 
 	// override configuration with YAML
-	app.Config.Load(file.Provider("configs/admin-mgmt.yaml"), yaml.Parser())
+	app.Config.Load(file.Provider("configs/account-api.yaml"), yaml.Parser())
 }
 
 // main function

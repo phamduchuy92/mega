@@ -13,8 +13,8 @@ type Order struct {
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `json:"deletedAt" gorm:"index"`
 
-	CustomerID uint     `json:"customer_id" query:"customer_id"`
-	Customer   Customer `json:"customer" query:"customer"`
+	CustomerID uint     `json:"customer_id"`
+	Customer   Customer `json:"customer"`
 }
 
 // OrderDetail
@@ -24,9 +24,9 @@ type OrderDetail struct {
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `json:"deletedAt" gorm:"index"`
 
-	OrderID   uint    `json:"order_id" query:"order_id"`
-	Order     Order   `json:"order" query:"order"`
-	ProductID uint    `json:"product_id" query:"product_id"`
-	Product   Product `json:"product" query:"product"`
-	Quantity  uint    `json:"quantity" query:"quantity"`
+	OrderID   uint    `json:"order_id"`
+	Order     Order   `json:"order"`
+	ProductID uint    `json:"product_id"`
+	Product   Product `json:"product"`
+	Quantity  uint    `json:"quantity"`
 }

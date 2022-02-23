@@ -14,15 +14,18 @@ type Product struct {
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `json:"deletedAt" gorm:"index"`
 
-	Title             string          `json:"title" query:"title"`
-	Image             string          `json:"image" query:"image"`
-	Images            pq.StringArray  `json:"images" gorm:"type:text[]" query:"images"`
-	Description       string          `json:"description" query:"description"`
-	Price             uint            `json:"price" query:"price"`
-	Quantity          uint            `json:"quantity" query:"quantity"`
-	ShortDescription  string          `json:"short_description" query:"short_description"`
-	ProductCategoryID uint            `json:"product_category_id" query:"product_category_id"`
-	ProductCategory   ProductCategory `json:"product_category" query:"product_category"`
+	Name              string          `json:"name"`
+	Image             string          `json:"image"`
+	Images            pq.StringArray  `json:"images" gorm:"type:text[]"`
+	Description       string          `json:"description"`
+	Price             uint            `json:"price"`
+	Quantity          uint            `json:"quantity"`
+	ShortDescription  string          `json:"shortDescription"`
+	ProductCategoryID uint            `json:"productCategoryId"`
+	ProductCategory   ProductCategory `json:"productCategory"`
+	OnSale            bool            `json:"onSale"`
+	SalePrice         uint            `json:"salePrice"`
+	UserID            uint            `json:"userId"`
 }
 
 // ProductCategory
@@ -32,5 +35,7 @@ type ProductCategory struct {
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `json:"deletedAt" gorm:"index"`
 
-	Title string `json:"title" query:"title"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	UserID      uint   `json:"userId"`
 }

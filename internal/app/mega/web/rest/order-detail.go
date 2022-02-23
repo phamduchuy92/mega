@@ -47,8 +47,6 @@ func GetOrderDetail(c *fiber.Ctx) error {
 
 // NewOrderDetail create a new item
 func NewOrderDetail(c *fiber.Ctx) error {
-	app.DBConn.Preload("Order").Preload("Order.Customer").Preload("Product")
-
 	item := mega.OrderDetail{}
 	if err := c.BodyParser(&item); err != nil {
 		return fiber.ErrBadRequest
@@ -61,8 +59,6 @@ func NewOrderDetail(c *fiber.Ctx) error {
 
 // UpdateOrderDetail update item info with given ID
 func UpdateOrderDetail(c *fiber.Ctx) error {
-	app.DBConn.Preload("Order").Preload("Order.Customer").Preload("Product")
-
 	item := mega.OrderDetail{}
 	if err := c.BodyParser(&item); err != nil {
 		return fiber.ErrBadRequest

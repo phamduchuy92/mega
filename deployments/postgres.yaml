@@ -8,8 +8,9 @@ services:
       POSTGRES_PASSWORD: mega
       POSTGRES_DB: mega
     volumes:
-      - database-data:/var/lib/postgresql/data/
+      - database-mega:/var/lib/postgresql/data/
     ports:
       - 5432:5432
+    restart: always
 volumes:
-  database-data:
+  database-mega:

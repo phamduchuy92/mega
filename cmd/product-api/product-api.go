@@ -17,18 +17,18 @@ import (
 
 func setupRoutes(app *fiber.App) {
 	// API Endpoint for Product
-	app.Get("api/product", rest.GetAllProducts)
-	app.Get("api/product/:id", rest.GetProduct)
-	app.Post("api/product", rest.NewProduct)
-	app.Put("api/product", rest.UpdateProduct)
-	app.Delete("api/product/:id", rest.DeleteProduct)
+	app.Get("api/products", rest.GetAllProducts)
+	app.Get("api/products/:id", rest.GetProduct)
+	app.Post("api/products", rest.NewProduct)
+	app.Put("api/products", rest.UpdateProduct)
+	app.Delete("api/products/:id", rest.DeleteProduct)
 
 	// API Endpoint for ProductCategory
-	app.Get("api/product-category", rest.GetAllProductCategories)
-	app.Get("api/product-category/:id", rest.GetProductCategory)
-	app.Post("api/product-category", rest.NewProductCategory)
-	app.Put("api/product-category", rest.UpdateProductCategory)
-	app.Delete("api/product-category/:id", rest.DeleteProductCategory)
+	app.Get("api/product-categories", rest.GetAllProductCategories)
+	app.Get("api/product-categories/:id", rest.GetProductCategory)
+	app.Post("api/product-categories", rest.NewProductCategory)
+	app.Put("api/product-categories", rest.UpdateProductCategory)
+	app.Delete("api/product-categories/:id", rest.DeleteProductCategory)
 }
 
 // configure application runtime

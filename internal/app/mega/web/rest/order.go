@@ -13,9 +13,6 @@ import (
 // GetAllOrders return all items
 func GetAllOrders(c *fiber.Ctx) error {
 	db := app.DBConn.Scopes(services.Paginate(c))
-	category := c.Query("category")
-	if category != "" {
-	}
 	items := []mega.Order{}
 	result := db.Find(&items)
 	if result.Error != nil {

@@ -19,7 +19,7 @@ func Paginate(c *fiber.Ctx) func(db *gorm.DB) *gorm.DB {
 
 		pageSize, err := strconv.Atoi(c.Query("size"))
 		if (err != nil) || (pageSize <= 0) {
-			pageSize = 20
+			pageSize = 1000
 		}
 
 		offset := page * pageSize

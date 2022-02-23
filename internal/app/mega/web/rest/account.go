@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"log"
+	"fmt"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -40,6 +40,7 @@ func SaveAccount(c *fiber.Ctx) error {
 	}
 
 	account.UserDTO = userDTO
+	fmt.Printf("account %v", account)
 	if dbErr := app.DBConn.Omit(clause.Associations).Save(&account); dbErr.Error != nil {
 		return fiber.ErrBadGateway
 	}
@@ -138,8 +139,6 @@ func Login(c *fiber.Ctx) error {
 	if !ud.Activated {
 		return fiber.NewError(fiber.StatusExpectationFailed, "Account is not activated")
 	}
-	log.Printf("input %+v", input.Password)
-	log.Printf("hash %+v", ud.Password)
 	if !services.CheckPasswordHash(input.Password, ud.Password) {
 		return fiber.NewError(fiber.StatusUnauthorized, "Invalid password")
 	}
@@ -155,5 +154,5 @@ func Login(c *fiber.Ctx) error {
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, "Unable to generate token")
 	}
-	return c.JSON(fiber.Map{"id_token": t})
+	return c.JSON(fiber.Map{"id_token": t, "login": ud.Login, "email": ud.Email, "id": ud.Id})
 }

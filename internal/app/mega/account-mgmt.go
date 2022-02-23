@@ -18,14 +18,13 @@ type UserDTO struct {
 	LangKey     string         `json:"langKey"`
 	Activated   bool           `json:"activated"`
 	Authorities pq.StringArray `json:"authorities" gorm:"type:text[]"`
+	PaymentInfo string         `json:"paymentInfo"`
 }
 
 // User store information about user from admin point of view
 type User struct {
 	UserDTO
 	Password  string         `json:"password"`
-	CreatedBy string         `json:"createdBy"`
-	UpdatedBy string         `json:"updatedBy"`
 	CreatedAt time.Time      `json:"createdAt"`
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `json:"deletedAt" gorm:"index"`
